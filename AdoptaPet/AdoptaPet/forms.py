@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-
+#FORMULARIO DE REGISTRO
 class RegisterForm(forms.Form):
 
     username = forms.CharField(
@@ -35,6 +35,7 @@ class RegisterForm(forms.Form):
             'class': 'form-control'
         }))
 
+#Validacion 1 --> Que el username no exista.
     def clean_username(self):
         username = self.cleaned_data.get('username')
 
@@ -43,6 +44,7 @@ class RegisterForm(forms.Form):
         
         return username
 
+#Validacion 2 --> Que el email no exista.
     def clean_email(self):
         email = self.cleaned_data.get('email')
 
@@ -51,15 +53,18 @@ class RegisterForm(forms.Form):
         
         return email
 
+#Validacion 3 --> Que las 2 contraseñas ingresadas coincidan.
     def clean(self):
         cleaned_data = super().clean()
 
         if cleaned_data.get('password2') != cleaned_data.get('password'):
             self.add_error('password2', 'El password no coincide')
-        
+
+#Validacion 4 -->  Retorno usuario y guardo los datos.      
     def save(self):
         return User.objects.create_user(
             self.cleaned_data.get('username'),
             self.cleaned_data.get('email'),
             self.cleaned_data.get('password')
         )
+

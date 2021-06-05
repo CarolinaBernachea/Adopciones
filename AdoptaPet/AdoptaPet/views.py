@@ -11,7 +11,9 @@ from django.contrib import messages
 
 
 
-#Defino funcion que luego asocio con la url
+#Defino funciones que luego asocio con las urls
+
+#Vista INDEX
 def index(request):
     return render(request, 'index.html', {
         'message': 'Listado de Productos', 
@@ -24,7 +26,7 @@ def index(request):
             ]
         })
 
-
+#Vista de LOGEO USUARIOS
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -42,11 +44,13 @@ def login_view(request):
 
     })
 
+#Vista de DESLOGEO USUARIOS
 def logout_view(request):
     logout(request)
     messages.success(request, 'Sesión cerrada exitosamente')
     return redirect('login')
 
+#Vista de REGISTRO USUARIOS
 def register(request):
     form = RegisterForm(request.POST or None)
 
